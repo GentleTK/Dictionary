@@ -2,7 +2,6 @@
 English-Chinese Translation Dictionary based on Java
 
 ## Derby User Manual
-
 Download Derby from http://db.apache.org/derby/derby_downloads.html
 
 choose the version which suits you
