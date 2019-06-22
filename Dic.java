@@ -1,3 +1,4 @@
+package dic;
 import java.awt.*;
 import java.net.*;
 import java.sql.*;
@@ -6,7 +7,6 @@ import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import java.io.*;
-import sun.audio.*;
 
 public class Dic extends Frame implements ActionListener {
 	
@@ -123,6 +123,7 @@ public class Dic extends Frame implements ActionListener {
 	public static void main(String[] args){
 		Dic m = new Dic();
 		String url ="jdbc:derby:MyData;create=true";
+		File file = new File("D:\\Program Files\\eclipse-workspace\\dictionary\\MyData");
 		Connection con = null;
 		Statement sm = null;
 		ResultSet rs = null;
@@ -136,10 +137,15 @@ public class Dic extends Frame implements ActionListener {
 			return;
 		}
 		try{
-			con = DriverManager.getConnection(url);
-			DatabaseMetaData dmd = con.getMetaData();
-			System.out.println("已连接到的数据库："+dmd.getURL());
-			System.out.println("所用的驱动程序是："+dmd.getDriverName());	
+			
+			if (!file.isDirectory()) {
+				con = DriverManager.getConnection(url);
+				sm = con.createStatement();
+				sm.execute("create table mytable (word varchar(20),chinese varchar(20))");
+				DatabaseMetaData dmd = con.getMetaData();
+				System.out.println("已连接到的数据库："+dmd.getURL());
+				System.out.println("所用的驱动程序是："+dmd.getDriverName());
+			}	
 		}catch(SQLException ex){
 			System.out.println("Failed to Connect!");
 			System.out.println(ex.getMessage());	
@@ -147,7 +153,7 @@ public class Dic extends Frame implements ActionListener {
 		
 	}
 	class Modwin  extends Frame implements ActionListener{
-			private TextField inputword= new TextField("",10);
+		private TextField inputword= new TextField("",10);
 		private TextArea  wordMeaning=new TextArea(20,20);
 		private Label lab1=new Label("输入要修改的英语单词：");
 		private Button mod= new Button("修改");
@@ -414,3 +420,4 @@ public class Dic extends Frame implements ActionListener {
 		}	
 	}	
 }
+
