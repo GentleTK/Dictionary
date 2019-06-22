@@ -12,6 +12,7 @@ What I'm using is db-derby-10.15.1.3-bin
 Unzip the compression package to D:\Derby
 
 ##Configure in windows:
+
 1.Set system variable
 name: DERBY_HOME
 path: D:\Derby\db-derby-10.15.1.3-bin
