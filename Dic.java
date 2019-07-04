@@ -1,129 +1,107 @@
 package dic;
 import java.awt.*;
-import java.net.*;
 import java.sql.*;
 import java.awt.event.*;
 import java.awt.Color;
 import javax.swing.JOptionPane;
-import javax.swing.JFrame;
 import java.io.*;
 
 public class Dic extends Frame implements ActionListener {
-	
-	MenuBar menubar=new MenuBar();//菜单
+	MenuBar menubar=new MenuBar();
 	Menu fileMenu,editMenu;
 	MenuItem fileenglish,filechinese,editAdd,editmod,editDel;
-	TextField inputtext;//接收用户输入或显示可编辑的文本输出
+	TextField inputtext;
 	TextArea txt;
 	Label label1,label2;
 	Button btn1,exit;
-	Panel p,p1,p2,p3;		// TODO Auto-generated method stub
+	Panel p,p1,p2,p3;		
 	private class WindowCloser extends  WindowAdapter{
-          public void windowClosing(WindowEvent e){
-                System.exit(0);
-             }
-         }
-	public Dic(){
-			super("电子词典");
-			setBounds(200,300,350,400);		
-			setMenuBar(menubar);			
-			fileMenu=new Menu("词典类型");
-			editMenu=new Menu("编辑词典");	
-			
-			fileenglish=new MenuItem("英汉词典");
-			filechinese=new MenuItem("汉英词典");
-			
-			editAdd=new MenuItem("添加词汇");
-			editmod=new MenuItem("修改词汇");
-			editDel=new MenuItem("删除词汇");
-			
-			menubar.add(fileMenu);
-			menubar.add(editMenu);
-			
-			fileMenu.add(fileenglish);
-			fileMenu.add(filechinese);
-			fileMenu.addSeparator();
-			
-			editMenu.add(editAdd);
-			editMenu.add(editmod);
-			editMenu.add(editDel);
-			
-			inputtext=new TextField("",10);
-			txt=new TextArea(20,20);
-			txt.setBackground(Color.WHITE);
-			label1=new Label("输入要查询的英语单词：");
-			label1.setBackground(Color.GREEN);
-			label2=new Label("查询结果：");
-			label2.setBackground(Color.RED);
-			btn1=new Button("查询");
-			exit=new Button("退出");
-			
-			btn1.setForeground(Color.GREEN);
-			btn1.setBackground(Color.BLUE);
-			exit.setForeground(Color.RED);
-			exit.setBackground(Color.BLUE);
-			
-			p=new Panel(new BorderLayout());
-			p2=new Panel(new FlowLayout(FlowLayout.LEFT,5,0));
-			
-			p2.add(label1);
-			p2.add(inputtext);
-			p2.add(btn1);
-			p2.add(exit);
-			add(p2,"North");
-			p.add(label2,"North");
-			p.add(txt,"Center");
-			add(p,"Center");	
-			setVisible(true);
-			setResizable(false);
-			validate();
-			
-			fileenglish.addActionListener(this);
-			filechinese.addActionListener(this);
-			exit.addActionListener(this);	
-			editAdd.addActionListener(this);	
-			editmod.addActionListener(this);	
-			editDel.addActionListener(this);	
-			btn1.addActionListener(this);
-			addWindowListener(new WindowCloser());
-	}
-
-		public void actionPerformed(ActionEvent e) {
-			if(e.getSource()==exit)
-				System.exit(0);
-			else if(e.getSource()==btn1){
-					txt.setText("");
-				if(inputtext.getText().equals("")){
-					JOptionPane.showMessageDialog(this,"查询对象不能为空！","警告",JOptionPane.WARNING_MESSAGE);
-				}
-				else{
-						try{
-							Listwords();	
-					}catch(SQLException ee){}
-				}
-			}
-			else if(e.getSource()==fileenglish){
-					label1.setText("输入要查询的英语单词：");
-			}
-			else if(e.getSource()==filechinese){
-					label1.setText("输入要查询的汉语词语：");
-			}
-			else if( e.getSource()==editAdd){
-				Addwin add = new Addwin();
-			}
-			else if(e.getSource()==editmod){
-				Modwin mod = new Modwin();
-			}
-			else if(e.getSource()==editDel){
-				Delwin del = new Delwin();
+		public void windowClosing(WindowEvent e){
+			System.exit(0);
 			}
 		}
-
-	
+	/*菜单界面设置*/
+	public Dic(){
+		super("电子词典");
+		setBounds(300, 200, 335, 350);
+		setMenuBar(menubar);			
+		fileMenu = new Menu("词典类型");
+		editMenu = new Menu("编辑词典");				
+		fileenglish = new MenuItem("英汉词典");
+		filechinese = new MenuItem("汉英词典");			
+		editAdd = new MenuItem("添加词汇");
+		editmod = new MenuItem("修改词汇");
+		editDel = new MenuItem("删除词汇");			
+		menubar.add(fileMenu);
+		menubar.add(editMenu);			
+		fileMenu.add(fileenglish);
+		fileMenu.add(filechinese);
+		editMenu.add(editAdd);
+		editMenu.add(editmod);
+		editMenu.add(editDel);
+		inputtext = new TextField("",10);
+		txt = new TextArea(20,20);
+		label1 = new Label("输入要查询的英语单词：");
+		label2 = new Label("查询结果：");
+		btn1 = new Button("查询");
+		exit = new Button("退出");
+		p = new Panel(new BorderLayout());
+		p2 = new Panel(new FlowLayout(FlowLayout.LEFT,0,0));
+		p2.add(label1);
+		p2.add(inputtext);
+		p2.add(btn1);
+		p2.add(exit);
+		add(p2,"North");
+		p.add(label2,"North");
+		p.add(txt,"Center");
+		add(p,"Center");	
+		setVisible(true);
+		setResizable(false);
+		validate();
+		fileenglish.addActionListener(this);
+		filechinese.addActionListener(this);
+		exit.addActionListener(this);	
+		editAdd.addActionListener(this);	
+		editmod.addActionListener(this);	
+		editDel.addActionListener(this);	
+		btn1.addActionListener(this);
+		addWindowListener(new WindowCloser());
+	}
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == exit){
+			System.exit(0);
+		}
+		else if(e.getSource() == btn1){
+			txt.setText("");
+			if(inputtext.getText().equals("")){
+				JOptionPane.showMessageDialog(this,"查询对象不能为空！","警告",JOptionPane.WARNING_MESSAGE);
+			}
+			else{
+				try{
+					Listwords();	
+				}catch(SQLException ee){}
+			}
+		}
+		else if(e.getSource() == fileenglish){
+			label1.setText("输入要查询的英语单词：");
+		}
+		else if(e.getSource() == filechinese){
+			label1.setText("输入要查询的汉语词语：");
+		}
+		else if( e.getSource() == editAdd){
+			Addwin add = new Addwin();
+		}
+		else if(e.getSource() == editmod){
+			Modwin mod = new Modwin();
+		}
+		else if(e.getSource() == editDel){
+			Delwin del = new Delwin();
+		}
+	}
 	public static void main(String[] args){
 		Dic m = new Dic();
 		String url ="jdbc:derby:MyData;create=true";
-		File file = new File("D:\\Program Files\\eclipse-workspace\\dictionary\\MyData");
+		File file = new File(".\\MyData");
 		Connection con = null;
 		Statement sm = null;
 		ResultSet rs = null;
@@ -137,8 +115,7 @@ public class Dic extends Frame implements ActionListener {
 			return;
 		}
 		try{
-			
-			if (!file.isDirectory()) {
+			if (!file.isDirectory()){
 				con = DriverManager.getConnection(url);
 				sm = con.createStatement();
 				sm.execute("create table mytable (word varchar(20),chinese varchar(20))");
@@ -150,39 +127,38 @@ public class Dic extends Frame implements ActionListener {
 			System.out.println("Failed to Connect!");
 			System.out.println(ex.getMessage());	
 		}
-		
 	}
+	/*修改词汇窗口设置*/
 	class Modwin  extends Frame implements ActionListener{
-		private TextField inputword= new TextField("",10);
-		private TextArea  wordMeaning=new TextArea(20,20);
-		private Label lab1=new Label("输入要修改的英语单词：");
-		private Button mod= new Button("修改");
-		private Label lab2=new Label("输入要修改的中文释义：");
+		private TextField inputword = new TextField("",10);
+		private TextArea  wordMeaning = new TextArea(20,20);
+		private Label lab1 = new Label("输入要修改的英语单词：");
+		private Button mod = new Button("修改");
+		private Label lab2 = new Label("输入要修改的中文释义：");
 		private class WindowCloser extends WindowAdapter{
-		public void windowClosing(WindowEvent we){
-			setVisible(false);
+			public void windowClosing(WindowEvent we){
+				setVisible(false);
 			}	
 		}
 		public Modwin(){
-				super("修改词汇");
-				setBounds(200,300,350,400);
-				setup();
-				mod.addActionListener(this);
-				addWindowListener(new WindowCloser());
-				pack();
-			}
-			
+			super("修改词汇");
+			setBounds(300,200,335,350);
+			setup();
+			mod.addActionListener(this);
+			addWindowListener(new WindowCloser());
+			pack();
+		}
 		public void actionPerformed(ActionEvent e){
-				if(e.getSource()==mod)
-						try{
-								modwords();
-						
+			if(e.getSource()==mod){
+					try{
+						modwords();
 				}catch(SQLException ee){}	
 			}
-			private void setup(){
+		}
+		private void setup(){
 			Panel t1,t2;
-			t1=new Panel(new BorderLayout());
-			t2=new Panel(new FlowLayout(FlowLayout.RIGHT,5,0));
+			t1 = new Panel(new BorderLayout());
+			t2 = new Panel(new FlowLayout(FlowLayout.LEFT,5,0));
 			t2.add(lab1);
 			t2.add(inputword);
 			t2.add(mod);
@@ -194,143 +170,135 @@ public class Dic extends Frame implements ActionListener {
 			setResizable(false);
 			validate();
 		}
-			public void modwords() throws SQLException//修改词库中记录
-	{
-		String ename,cname;
-		try{
-			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-		}catch(ClassNotFoundException e){}
-		Connection Ex1Con=DriverManager.getConnection("jdbc:derby:MyData","","");
-		Statement Ex1Stmt=Ex1Con.createStatement();
-		ResultSet rs=Ex1Stmt.executeQuery("SELECT * FROM mytable");
-		boolean boo=false;
-		while((boo=rs.next())==true){
-			ename=rs.getString("word");
-			cname=rs.getString("chinese");
-			if(ename.equals(inputword.getText())){
-				String s1="'"+inputword.getText().trim()+"'",s2="'"+wordMeaning.getText().trim()+"'";
-				String temp="UPDATE mytable SET chinese="+s2+"WHERE word="+s1;
-				Ex1Stmt.executeUpdate(temp);
-				//Ex1Stmt.executeUpdate("UPDATE mytable SET chinese='"+txt.getText().trim()
-				//+"' WHERE word='"+inputtext.getText().trim()+"'");
-				JOptionPane.showMessageDialog(this,"记录修改成功！","恭喜",
-				JOptionPane.WARNING_MESSAGE);
-				dispose();
-				break;	
+		/*修改词汇方法*/
+		public void modwords() throws SQLException
+		{
+			String ename,cname;
+			try{
+				Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+			}catch(ClassNotFoundException e){}
+			Connection Ex1Con = DriverManager.getConnection("jdbc:derby:MyData","","");
+			Statement Ex1Stmt = Ex1Con.createStatement();
+			ResultSet rs=Ex1Stmt.executeQuery("SELECT * FROM mytable");
+			boolean boo = false;
+			while((boo=rs.next()) == true){
+				ename = rs.getString("word");
+				cname = rs.getString("chinese");
+				if(ename.equals(inputword.getText())){
+					String s1 = "'"+inputword.getText().trim()+"'",s2="'"+wordMeaning.getText().trim()+"'";
+					String temp = "UPDATE mytable SET chinese="+s2+"WHERE word="+s1;
+					Ex1Stmt.executeUpdate(temp);
+					JOptionPane.showMessageDialog(this,"记录修改成功！","恭喜",
+					JOptionPane.WARNING_MESSAGE);
+					dispose();
+					break;	
+				}
+			}
+			Ex1Con.close();	
+			if(boo == false){
+				JOptionPane.showMessageDialog(this,"不存在此单词！","警告",JOptionPane.WARNING_MESSAGE);
 			}
 		}
-		Ex1Con.close();	
-		if(boo==false){
-			JOptionPane.showMessageDialog(this,"不存在此单词！","警告",JOptionPane.WARNING_MESSAGE);
-		}
 	}
-		
-	}
+	/*删除词汇窗口设置*/
 	class Delwin  extends Frame implements ActionListener{
-		private TextField inputword= new TextField("",10);
-	//	private TextArea  wordMeaning=new TextArea(20,20);
-		private Label lab1=new Label("输入要删除的英语单词：");
-		private Button cancel= new Button("删除");
-		//private Label lab2=new Label("输入要删除的中文释义：");
+		private TextField inputword = new TextField("",10);
+		private Label lab1 = new Label("输入要删除的英语单词：");
+		private Button cancel = new Button("删除");
 		private class WindowCloser extends WindowAdapter{
-		public void windowClosing(WindowEvent we){
-			setVisible(false);
-		}	
-	}
-			public Delwin(){
-				super("删除词汇");
-				setBounds(200,300,350,400);
-				setup();
-				cancel.addActionListener(this);
-				addWindowListener(new WindowCloser());
-				pack();
-			}
-			public void actionPerformed(ActionEvent e){
-				if(e.getSource()==cancel)
-						try{
-								delwords();
-						
-				}catch(SQLException ee){}	
-			}
-			private void setup(){
+			public void windowClosing(WindowEvent we){
+				setVisible(false);
+			}	
+		}
+		public Delwin(){
+			super("删除词汇");
+			setBounds(300,200,335,350);
+			setup();
+			cancel.addActionListener(this);
+			addWindowListener(new WindowCloser());
+			pack();
+		}
+		public void actionPerformed(ActionEvent e){
+			if(e.getSource() == cancel)
+				try{
+					delwords();
+			}catch(SQLException ee){}	
+		}
+		private void setup(){
 			Panel t1,t2;
-			t1=new Panel(new BorderLayout());
-			t2=new Panel(new FlowLayout(FlowLayout.RIGHT,5,0));
+			t1 = new Panel(new BorderLayout());
+			t2 = new Panel(new FlowLayout(FlowLayout.RIGHT,0,0));
 			t2.add(lab1);
 			t2.add(inputword);
 			t2.add(cancel);
 			add(t2,"North");
-			//t1.add(lab2,"North");
-		//	t1.add(wordMeaning,"Center");
 			add(t1,"Center");
 			setVisible(true);
 			setResizable(false);
 			validate();
 		}
-		
-	public void delwords() throws SQLException//删除词库中记录
-	{
-		@SuppressWarnings("unused")
-		String cname,ename;
-		try{
-			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-		}catch(ClassNotFoundException e){}
-		Connection Ex1Con=DriverManager.getConnection("jdbc:derby:MyData","","");
-		Statement Ex1Stmt=Ex1Con.createStatement();
-		ResultSet rs=Ex1Stmt.executeQuery("SELECT * FROM mytable");
-		boolean boo=false;
-		while((boo=rs.next())==true){
-			ename=rs.getString("word");
-			cname=rs.getString("chinese");
-			if(ename.equals(inputword.getText())){
-				String s1="'"+inputword.getText().trim()+"'";
-				String temp="DELETE FROM mytable WHERE word="+s1;
-				Ex1Stmt.executeUpdate(temp);
-		
-				JOptionPane.showMessageDialog(this,"成功删除记录！","恭喜",JOptionPane.WARNING_MESSAGE);
-				dispose();
-				break;
+		/*删除词汇方法*/
+		public void delwords() throws SQLException
+		{
+			@SuppressWarnings("unused")
+			String cname,ename;
+			try{
+				Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+			}catch(ClassNotFoundException e){}
+			Connection Ex1Con = DriverManager.getConnection("jdbc:derby:MyData","","");
+			Statement Ex1Stmt = Ex1Con.createStatement();
+			ResultSet rs = Ex1Stmt.executeQuery("SELECT * FROM mytable");
+			boolean boo = false;
+			while((boo = rs.next()) == true){
+				ename = rs.getString("word");
+				cname = rs.getString("chinese");
+				if(ename.equals(inputword.getText())){
+					String s1 = "'"+inputword.getText().trim()+"'";
+					String temp = "DELETE FROM mytable WHERE word="+s1;
+					Ex1Stmt.executeUpdate(temp);
+					JOptionPane.showMessageDialog(this,"成功删除记录！","恭喜",JOptionPane.WARNING_MESSAGE);
+					dispose();
+					break;
+				}
 			}
-		}
-		Ex1Con.close();	
-		if(boo==false){
+			Ex1Con.close();	
+			if(boo == false){
 				JOptionPane.showMessageDialog(this,"不存在此单词！","警告",
 				JOptionPane.WARNING_MESSAGE);
-			 }	
+			}	
 		}
 	}
+	/*添加词汇窗口设置*/
 	class Addwin  extends Frame implements ActionListener{
-	
 		private TextField inputword= new TextField("",10);
 		private TextArea  wordMeaning=new TextArea(20,20);
-		private Label lab1=new Label("输入要添加的英语单词：");
-		private Button ok= new Button("添加");
-		private Label lab2=new Label("输入要添加的中文释义：");
+		private Label lab1 = new Label("输入要添加的英语单词：");
+		private Button ok = new Button("添加");
+		private Label lab2 = new Label("输入要添加的中文释义：");
 		private class WindowCloser extends WindowAdapter{
-		public void windowClosing(WindowEvent we){
-			setVisible(false);
-		}	
-
-	}
-			public Addwin(){
-				super("添加词汇");
-				setBounds(200,300,350,400);
-				setup();
-				ok.addActionListener(this);
-				addWindowListener(new WindowCloser());
-				pack();
-			}
-			public void actionPerformed(ActionEvent e){
-				if(e.getSource()==ok)
-						try{
-						addwords();
-						
+			public void windowClosing(WindowEvent we){
+				setVisible(false);
+			}	
+		}
+		public Addwin(){
+			super("添加词汇");
+			setBounds(300,200,335,350);
+			setup();
+			ok.addActionListener(this);
+			addWindowListener(new WindowCloser());
+			pack();
+		}
+		public void actionPerformed(ActionEvent e){
+			if(e.getSource() == ok) {
+				try{
+					addwords();
 				}catch(SQLException ee){}	
 			}
+		}
 		private void setup(){
 			Panel t1,t2;
-			t1=new Panel(new BorderLayout());
-			t2=new Panel(new FlowLayout(FlowLayout.RIGHT,5,0));
+			t1 = new Panel(new BorderLayout());
+			t2 = new Panel(new FlowLayout(FlowLayout.RIGHT,5,0));
 			t2.add(lab1);
 			t2.add(inputword);
 			t2.add(ok);
@@ -342,21 +310,20 @@ public class Dic extends Frame implements ActionListener {
 			setResizable(false);
 			validate();
 		}
-		public void addwords() throws SQLException//向数据库添加新词汇
+		/*添加词汇方法*/
+		public void addwords() throws SQLException
 		{
 			String cname,ename;
-			
 			try{
 				Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			}catch(ClassNotFoundException e){}
-			Connection Ex1Con=DriverManager.getConnection("jdbc:derby:MyData","","");
-			Statement Ex1Stmt=Ex1Con.createStatement();
-			ResultSet rs=Ex1Stmt.executeQuery("SELECT * FROM mytable");
-			boolean boo=false;
-			
-			while(boo=rs.next()){
-				ename=rs.getString("word");
-				cname=rs.getString("chinese");
+			Connection Ex1Con = DriverManager.getConnection("jdbc:derby:MyData","","");
+			Statement Ex1Stmt = Ex1Con.createStatement();
+			ResultSet rs = Ex1Stmt.executeQuery("SELECT * FROM mytable");
+			boolean boo = false;
+			while(boo = rs.next()){
+				ename = rs.getString("word");
+				cname = rs.getString("chinese");
 				System.out.println("ename" + ename);
 				if(ename.equals(inputword.getText())){
 					JOptionPane.showMessageDialog(this,"此词汇已存在！","警告",
@@ -364,10 +331,9 @@ public class Dic extends Frame implements ActionListener {
 					break;
 				}
 			}
-			//System.out.println("成功！");
-			if(boo==false){
-				String s1="'"+inputword.getText().trim()+"'",s2="'"+wordMeaning.getText().trim()+"'";
-				String temp="INSERT INTO mytable VALUES ("+s1+","+s2+")";
+			if(boo == false){
+				String s1 = "'"+inputword.getText().trim()+"'",s2="'"+wordMeaning.getText().trim()+"'";
+				String temp = "INSERT INTO mytable VALUES ("+s1+","+s2+")";
 				Ex1Stmt.executeUpdate(temp);
 				JOptionPane.showMessageDialog(this,"添加成功！","恭喜",JOptionPane.WARNING_MESSAGE);
 				dispose();
@@ -375,26 +341,23 @@ public class Dic extends Frame implements ActionListener {
 			Ex1Con.close();	
 		}
 	}
-	public void Listwords() throws SQLException//查询实现过程
+	/*查询单词*/
+	public void Listwords() throws SQLException
 	{
 		String cname,ename;
-		try
-		{
+		try{
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 		}
 		catch(ClassNotFoundException e){}
-		
-		Connection Ex1Con=DriverManager.getConnection("jdbc:derby:MyData","","");
-		Statement Ex1Stmt=Ex1Con.createStatement();
-		
-		
-		boolean boo=false;
+		Connection Ex1Con = DriverManager.getConnection("jdbc:derby:MyData","","");
+		Statement Ex1Stmt = Ex1Con.createStatement();
+		boolean boo = false;
 		if(label1.getText().equals("输入要查询的英语单词："))
 		{
-			ResultSet rs=Ex1Stmt.executeQuery("SELECT * FROM mytable");
+			ResultSet rs = Ex1Stmt.executeQuery("SELECT * FROM mytable");
 			while(rs.next()){
-				ename=rs.getString("word");
-				cname=rs.getString("chinese");
+				ename = rs.getString("word");
+				cname = rs.getString("chinese");
 				if(ename.equals(inputtext.getText())){
 					txt.append(cname+'\n');
 				}
@@ -405,8 +368,8 @@ public class Dic extends Frame implements ActionListener {
 				JOptionPane.WARNING_MESSAGE);
 			}
 		}
-		 else if(label1.getText().equals("输入要查询的汉语词语：")){
-		 	ResultSet rs1=Ex1Stmt.executeQuery("SELECT * FROM mytable WHERE chinese LIKE '%"+inputtext.getText()+"%'");
+		else if(label1.getText().equals("输入要查询的汉语词语：")){
+		 	ResultSet rs1 = Ex1Stmt.executeQuery("SELECT * FROM mytable WHERE chinese LIKE '%"+inputtext.getText()+"%'");
 				while(rs1.next()){
 					ename = rs1.getString("word");
 					cname = rs1.getString("chinese");
@@ -420,4 +383,3 @@ public class Dic extends Frame implements ActionListener {
 		}	
 	}	
 }
-
