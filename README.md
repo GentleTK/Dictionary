@@ -33,7 +33,7 @@ java org.apache.derby.tools.ij
 
 click server_start.bat
 
-##### 为eclipse添加库
+##### 6.为eclipse添加库
 
 1.Java Build Path
 
