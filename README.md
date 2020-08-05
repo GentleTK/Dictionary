@@ -1,41 +1,42 @@
 # Dictionary
-English-Chinese Translation Dictionary based on Java
 
-## Derby User Manual
-Download Derby from http://db.apache.org/derby/derby_downloads.html
+#### 介绍
+基于Java的英汉电子词典
 
-choose the version which suits you
+#### Derby使用说明
+##### 1.下载Derby
+[下载Derby](http://db.apache.org/derby/derby_downloads.html)
 
-What I'm using is db-derby-10.15.1.3-bin
+选择适合你的版本
 
-Unzip the compression package to D:\Derby
+我用的是db-derby-10.15.1.3-bin
 
-### Configure in windows:
+解压到D:\Derby
 
-#### 1.Set system variable
+##### 2.设置环境变量
 
-name: DERBY_HOME
-path: D:\Derby\db-derby-10.15.1.3-bin
+变量名: DERBY_HOME
+路径: D:\Derby\db-derby-10.15.1.3-bin
 
-name: CLASSPATH
-path: %DERBY_HOME%\lib \derby.jar;%DERBY_HOME%\lib\derbyclient.jar;%DERBY_HOME%\lib\derbytools.jar;%DERBY_HOME%\lib\derbynet.jar
+变量名: CLASSPATH
+路径: %DERBY_HOME%\lib \derby.jar;%DERBY_HOME%\lib\derbyclient.jar;%DERBY_HOME%\lib\derbytools.jar;%DERBY_HOME%\lib\derbynet.jar
 
-#### 2.Check install
+##### 3.检查安装信息
 
 java org.apache.derby.tools.sysinfo
 
-#### 3.Test ij
+##### 4.测试 ij工具
 
 java org.apache.derby.tools.ij
 
-#### 4.Start Server
+##### 5.启动服务
 
 click server_start.bat
 
-### Add lib to eclipse
+##### 为eclipse添加库
 
-#### 1.Java Build Path
+1.Java Build Path
 
-#### 2.Libraries -->  Add Extern JARS
+2.Libraries -->  Add Extern JARS
 
-#### 3.Classpath -->  Path(derby.jar && derbyclient.jar && derbynet.jar && derbytools.jar)
+3.Classpath -->  Path(derby.jar && derbyclient.jar && derbynet.jar && derbytools.jar)
